@@ -34,7 +34,6 @@ EXPOSE 3000
 
 # Command to run your app
 CMD ["npm", "start"]
-ly (only if needed)
 # RUN npx puppeteer browsers install chrome
 
 # Expose port (if using web server; optional)
