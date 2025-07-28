@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.mjs",
-    "install": "npm install && npx puppeteer browsers install chrome"
   },
   "keywords": [],
   "author": "",
