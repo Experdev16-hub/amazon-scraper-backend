@@ -1,7 +1,6 @@
 import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
-import path from 'path';
 import { executablePath } from 'puppeteer';
 import path from 'path';
 import { fileURLToPath } from 'url';
