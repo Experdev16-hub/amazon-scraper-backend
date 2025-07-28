@@ -1,10 +1,10 @@
 // server.js or server/index.js
 
 import express from 'express';
+import path from 'path';
 import cors from 'cors';[]
 import { discoverSellers } from './utils/discoverSellers.mjs';
 import dotenv from 'dotenv';
-import path from 'path';
 import { fileURLToPath } from 'url';
 
 
