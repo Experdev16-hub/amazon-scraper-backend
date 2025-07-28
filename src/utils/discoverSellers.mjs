@@ -44,7 +44,7 @@ export async function discoverSellers(niche, res = null) {
 
   const browser = await puppeteerExtra.launch({
     headless: false,
-  executablePath: '/app/.cache/puppeteer/chrome/linux-*/chrome', 
+    executablePath: '/app/.cache/puppeteer/chrome/linux-*/chrome', 
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'
