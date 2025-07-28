@@ -2,7 +2,7 @@
 FROM ghcr.io/puppeteer/puppeteer:latest
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /
 
 # Copy your project files
 COPY . .
