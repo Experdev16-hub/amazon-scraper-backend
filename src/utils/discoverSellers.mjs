@@ -44,7 +44,6 @@ export async function discoverSellers(niche, res = null) {
 
   const browser = await puppeteerExtra.launch({
     headless: false,
-    executablePath: await puppeteer.executablePath(), 
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'

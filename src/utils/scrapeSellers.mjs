@@ -28,7 +28,6 @@ export async function scrapeSellerDirectory() {
 
    const browser = await puppeteer.launch({
     headless: false,
-    executablePath: await puppeteer.executablePath(), 
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'
