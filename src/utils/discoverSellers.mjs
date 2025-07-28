@@ -1,8 +1,7 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
 import path from 'path';
-import { executablePath } from 'puppeteer';
 import { scrapeSellerDirectory } from './scrapeSellers.mjs';
 import { fileURLToPath } from 'url';
 
@@ -44,8 +43,10 @@ export async function discoverSellers(niche, res = null) {
 
   const browser = await puppeteer.launch({
     headless: false,
-    executablePath: executablePath(),
-    args: ['--no-sandbox']
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+    ]
   });
 
   const page = await browser.newPage();
