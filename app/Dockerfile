@@ -7,7 +7,7 @@ WORKDIR /
 # Copy your project files
 COPY . .
 
-# Install dependencies
+# Make build.sh executable
 RUN npm install
 
 # Optional: Install Chrome manually (only if needed)
