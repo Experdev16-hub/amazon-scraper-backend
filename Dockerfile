@@ -2,12 +2,12 @@
 FROM ghcr.io/puppeteer/puppeteer:latest
 
 # Set the working directory
-WORKDIR /
+WORKDIR /app
 
 # Copy your project files
 COPY . .
 
-# Make build.sh executable
+# Install dependencies
 RUN npm install
 
 # Optional: Install Chrome manually (only if needed)
