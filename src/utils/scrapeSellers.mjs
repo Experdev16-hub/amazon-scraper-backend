@@ -6,7 +6,7 @@ import path from 'path';
 import { executablePath } from 'puppeteer';
 import { fileURLToPath } from 'url';
 
-puppeteer.use(StealthPlugin());
+puppeteerExtra.use(StealthPlugin());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
