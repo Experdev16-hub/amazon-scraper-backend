@@ -3,9 +3,13 @@ import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
 import path from 'path';
 import { executablePath } from 'puppeteer';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 puppeteer.use(StealthPlugin());
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
 const DETAILS_FILE = path.resolve(__dirname, '..', 'data', 'sellerDetails.json');
 const MAX_RETRIES = 3;
