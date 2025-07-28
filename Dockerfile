@@ -1,5 +1,14 @@
+FROM node:18
+
 # Base image with all dependencies needed for Puppeteer
 FROM ghcr.io/puppeteer/puppeteer:latest
+
+
+# Create user and group
+RUN groupadd -r pptruser && useradd -r -g pptruser pptruser
+
+# Create app directory
+RUN mkdir -p /app
 
 # Set the working directory
 WORKDIR /app
@@ -41,3 +50,9 @@ EXPOSE 3000
 
 # Command to run your app (adjust as needed)
 CMD ["node", "src/server.mjs"]
+
+
+
+
+
+
