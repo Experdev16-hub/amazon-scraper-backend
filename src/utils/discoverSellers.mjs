@@ -4,7 +4,6 @@ import fs from 'fs';
 import path from 'path';
 import { executablePath } from 'puppeteer';
 import { scrapeSellerDirectory } from './scrapeSellers.mjs';
-import path from 'path';
 import { fileURLToPath } from 'url';
 
 puppeteer.use(StealthPlugin());
