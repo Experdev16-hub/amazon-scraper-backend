@@ -1,11 +1,12 @@
-import puppeteer from 'puppeteer-extra';
+import puppeteer from 'puppeteer';
+import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
 import path from 'path';
 import { scrapeSellerDirectory } from './scrapeSellers.mjs';
 import { fileURLToPath } from 'url';
 
-puppeteer.use(StealthPlugin());
+puppeteerExtra.use(StealthPlugin());
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,8 +42,9 @@ const retry = async (fn, retries = MAX_RETRIES) => {
 export async function discoverSellers(niche, res = null) {
   clearSellerFile();
 
-  const browser = await puppeteer.launch({
+  const browser = await puppeteerExtra.launch({
     headless: false,
+  executablePath: '/app/.cache/puppeteer/chrome/linux-*/chrome', /
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'

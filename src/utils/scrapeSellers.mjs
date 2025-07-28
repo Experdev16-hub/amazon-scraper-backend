@@ -1,4 +1,5 @@
-import puppeteer from 'puppeteer-extra';
+import puppeteer from 'puppeteer';
+import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
 import path from 'path';
@@ -27,6 +28,7 @@ export async function scrapeSellerDirectory() {
 
    const browser = await puppeteer.launch({
     headless: false,
+    executablePath: '/app/.cache/puppeteer/chrome/linux-*/chrome', /
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'
