@@ -25,10 +25,12 @@ export async function scrapeSellerDirectory() {
   const lines = fs.readFileSync(SELLERS_FILE, 'utf-8').trim().split('\n');
   const sellers = lines.map(line => JSON.parse(line));
 
-  const browser = await puppeteer.launch({
+   const browser = await puppeteer.launch({
     headless: false,
-    executablePath: executablePath(),
-    args: ['--no-sandbox']
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox'
+    ]
   });
 
   const page = await browser.newPage();
