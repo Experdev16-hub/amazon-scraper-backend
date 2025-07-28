@@ -58,7 +58,7 @@ export async function discoverSellers(niche, res = null) {
 
   // Accept cookies if shown
   try {
-    await page.click('#sp-cc-accept', { timeout: 3000 });
+    await page.click('#sp-cc-accept');
   } catch {}
 
 
