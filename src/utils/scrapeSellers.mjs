@@ -27,7 +27,7 @@ export async function scrapeSellerDirectory() {
   const sellers = lines.map(line => JSON.parse(line));
 
    const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'
