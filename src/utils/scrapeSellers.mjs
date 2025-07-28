@@ -28,7 +28,7 @@ export async function scrapeSellerDirectory() {
 
    const browser = await puppeteer.launch({
     headless: false,
-    executablePath: '/app/.cache/puppeteer/chrome/linux-*/chrome', 
+    executablePath: await puppeteer.executablePath(), 
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox'
