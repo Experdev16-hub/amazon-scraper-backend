@@ -6,8 +6,8 @@ import { executablePath } from 'puppeteer';
 
 puppeteer.use(StealthPlugin());
 
-const SELLERS_FILE = path.resolve('data', 'sellerUrls.jsonl');
-const DETAILS_FILE = path.resolve('data', 'sellerDetails.jsonl');
+const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
+const DETAILS_FILE = path.resolve(__dirname, '..', 'data', 'sellerDetails.json');
 const MAX_RETRIES = 3;
 
 export async function scrapeSellerDirectory() {

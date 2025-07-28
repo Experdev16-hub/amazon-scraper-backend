@@ -30,7 +30,7 @@ app.post('/api/start-scraping', async (req, res) => {
 });
 
 app.get('/api/scraped-sellers', (req, res) => {
-  const filePath = path.resolve('data', 'sellerDetails.jsonl');
+  const filePath = path.resolve(__dirname, 'data', 'sellerUrls.json');
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ error: 'No seller data found yet.' });

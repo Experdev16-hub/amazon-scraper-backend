@@ -7,7 +7,7 @@ import { scrapeSellerDirectory } from './scrapeSellers.mjs';
 
 puppeteer.use(StealthPlugin());
 
-const SELLERS_FILE = path.resolve('data', 'sellerUrls.jsonl');
+const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
 const MAX_PAGES = 20;
 const MAX_RETRIES = 3;
 
