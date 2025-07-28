@@ -14,6 +14,28 @@ const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
 const DETAILS_FILE = path.resolve(__dirname, '..', 'data', 'sellerDetails.json');
 const MAX_RETRIES = 3;
 
+const executablePath =
+  process.env.CHROME_PATH
+  || process.env.PUPPETEER_EXECUTABLE_PATH
+  || '/usr/bin/chromium'; // Dockerfile sets CHROME_PATH
+
+
+export async function getBrowser() {
+  return puppeteer.launch({
+    executablePath,
+    headless: true, // default in recent versions
+    args: (process.env.PUPPETEER_ARGS || '')
+      .split(' ')
+      .filter(Boolean)
+      .concat([
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // for Docker compatibility
+      ]),
+  });
+}
+
+
 export async function scrapeSellerDirectory() {
   if (!fs.existsSync(SELLERS_FILE)) {
     console.log('❌ No seller URLs found to scrape.');
@@ -26,13 +48,7 @@ export async function scrapeSellerDirectory() {
   const lines = fs.readFileSync(SELLERS_FILE, 'utf-8').trim().split('\n');
   const sellers = lines.map(line => JSON.parse(line));
 
-   const browser = await puppeteer.launch({
-    headless: true,
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox'
-    ]
-  });
+   const browser = await getBrowser()
 
   const page = await browser.newPage();
 

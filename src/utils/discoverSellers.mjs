@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import puppeteer from 'puppeteer-core';
 import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
@@ -13,15 +13,29 @@ const __dirname = path.dirname(__filename);
 const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
 const MAX_PAGES = 20;
 const MAX_RETRIES = 3;
+const executablePath =
+  process.env.CHROME_PATH
+  || process.env.PUPPETEER_EXECUTABLE_PATH
+  || '/usr/bin/chromium'; // Dockerfile sets CHROME_PATH
+
+
+export async function getBrowser() {
+  return puppeteer.launch({
+    executablePath,
+    headless: true, // default in recent versions
+    args: (process.env.PUPPETEER_ARGS || '')
+      .split(' ')
+      .filter(Boolean)
+      .concat([
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // for Docker compatibility
+      ]),
+  });
+}
 
 const clearSellerFile = () => {
   fs.writeFileSync(SELLERS_FILE, '');
-};
-
-const loadExistingSellers = () => {
-  if (!fs.existsSync(SELLERS_FILE)) return new Set();
-  const lines = fs.readFileSync(SELLERS_FILE, 'utf-8').trim().split('\n');
-  return new Set(lines.map(line => JSON.parse(line).sellerId));
 };
 
 const saveSeller = (seller) => {
@@ -42,14 +56,7 @@ const retry = async (fn, retries = MAX_RETRIES) => {
 export async function discoverSellers(niche, res = null) {
   clearSellerFile();
 
-  const browser = await puppeteerExtra.launch({
-    headless: true,
-    executablePath: '/usr/bin/chromium-browser', // adjust path if necessary
-    args: [
-      '--no-sandbox',
-      '--disable-setuid-sandbox'
-    ]
-  });
+  const browser = await getBrowser();
 
   const page = await browser.newPage();
   await page.goto('https://www.amazon.com', { waitUntil: 'domcontentloaded' });
@@ -58,6 +65,8 @@ export async function discoverSellers(niche, res = null) {
   try {
     await page.click('#sp-cc-accept', { timeout: 3000 });
   } catch {}
+
+
 
   // Search for the niche
   await page.type('input[name="field-keywords"]', niche);
