@@ -26,11 +26,6 @@ export async function getBrowser() {
     args: (process.env.PUPPETEER_ARGS || '')
       .split(' ')
       .filter(Boolean)
-      .concat([
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage', // for Docker compatibility
-      ]),
   });
 }
 

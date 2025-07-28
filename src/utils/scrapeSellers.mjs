@@ -14,10 +14,7 @@ const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
 const DETAILS_FILE = path.resolve(__dirname, '..', 'data', 'sellerDetails.json');
 const MAX_RETRIES = 3;
 
-const executablePath =
-  process.env.CHROME_PATH
-  || process.env.PUPPETEER_EXECUTABLE_PATH
-  || '/usr/bin/chromium'; // Dockerfile sets CHROME_PATH
+
 
 
 export async function getBrowser() {
@@ -27,11 +24,6 @@ export async function getBrowser() {
     args: (process.env.PUPPETEER_ARGS || '')
       .split(' ')
       .filter(Boolean)
-      .concat([
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage', // for Docker compatibility
-      ]),
   });
 }
 
