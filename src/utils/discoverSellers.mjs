@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { scrapeSellerDirectory } from './scrapeSellers.mjs';
 import { fileURLToPath } from 'url';
+import { log } from 'console';
 
 puppeteerExtra.use(StealthPlugin());
 
@@ -55,19 +56,26 @@ export async function discoverSellers(niche, res = null) {
   const page = await browser.newPage();
   console.log('Opening browser and navigating to Amazon...'); 
   await page.goto('https://www.amazon.com', { waitUntil: 'domcontentloaded' });
-  console.log('opened amazon')
+  console.log('opened amazon');
+  console.log('Current URL:', page.url());
+
 
   
   // Search for the niche
   await page.type('input[name="field-keywords"]', niche);
   console.log('typed keyword for search')
 
-  await Promise.all([
-    page.waitForNavigation({
+ await Promise.all([
+  page.waitForNavigation({
     waitUntil: 'domcontentloaded', // or 'networkidle0'
     timeout: 600000, // 600 seconds
   }),
-    page.click('input[type="submit"]'),
+
+   page.waitForSelector('input[type="submit"]', { visible: true }),
+   console.log('submit selector found'),
+
+   page.click('input[type="submit"]'),
+    console.log('submit clicked')
   ]);
 
   
