@@ -28,18 +28,21 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 COPY . .
+COPY ./data /app/data
+
 
 # Tell the app where Chromium is
 ENV CHROME_PATH=/usr/bin/chromium
 # Set the environment to production
 ENV NODE_ENV=production
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 # Good defaults for Chrome in containers
 ENV PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox --no-zygote --disable-dev-shm-usage --disable-gpu"
 # Expose the port your server runs on
 EXPOSE 3000
 
 RUN which chromium
+
+RUN which chromium-browser
 RUN chromium --version
 
 # Install any additional dependencies your app needs

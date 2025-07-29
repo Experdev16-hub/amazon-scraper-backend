@@ -15,7 +15,7 @@ const MAX_PAGES = 20;
 const MAX_RETRIES = 3;
 const executablePath =
   process.env.CHROME_PATH 
-  || '/usr/bin/chromium'; // Dockerfile sets CHROME_PATH
+  || '/usr/bin/chromium-browser'; // Dockerfile sets CHROME_PATH
 
 
 export async function getBrowser() {
