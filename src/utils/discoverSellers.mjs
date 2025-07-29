@@ -53,23 +53,21 @@ export async function discoverSellers(niche, res = null) {
   const browser = await getBrowser();
 
   const page = await browser.newPage();
+  console.log('Opening browser and navigating to Amazon...'); 
   await page.goto('https://www.amazon.com', { waitUntil: 'domcontentloaded' });
+  console.log('opened amazon')
 
-  // Accept cookies if shown
-  try {
-    await page.click('#sp-cc-accept');
-  } catch {}
-
-
-
+  
   // Search for the niche
   await page.type('input[name="field-keywords"]', niche);
+  console.log('typed keyword for search')
+
   await Promise.all([
     page.waitForNavigation({
     waitUntil: 'domcontentloaded', // or 'networkidle0'
     timeout: 600000, // 600 seconds
   }),
-    page.keyboard.press('Enter'),
+    page.keyboard.press('#"nav-search-submit-button"'),
   ]);
 
   
