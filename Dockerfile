@@ -39,7 +39,9 @@ ENV PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox --no-zygote --disable-
 # Expose the port your server runs on
 EXPOSE 3000
 
-RUN chromium-browser --version
+RUN which chromium
+RUN chromium --version
+
 # Install any additional dependencies your app needs
 RUN npm install --omit=dev
 
