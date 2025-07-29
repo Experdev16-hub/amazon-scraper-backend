@@ -67,7 +67,6 @@ export async function discoverSellers(niche, res = null) {
   await page.type('input[name="field-keywords"]', niche);
   await Promise.all([
     page.keyboard.press('Enter'),
-    page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
   ]);
 
   const seenSellerIds = new Set();
