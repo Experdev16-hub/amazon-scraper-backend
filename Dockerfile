@@ -33,4 +33,4 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox --no-zygote --disable-dev-shm-usage"
 
 # Start your server (adjust as needed)
-CMD ["npm", "start"]
+CMD ["node", "src/server.mjs"]
