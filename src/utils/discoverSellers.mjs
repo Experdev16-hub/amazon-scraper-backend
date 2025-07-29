@@ -65,7 +65,10 @@ export async function discoverSellers(niche, res = null) {
   // Search for the niche
   await page.type('input[name="field-keywords"]', niche);
   await Promise.all([
-    page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
+    page.waitForNavigation({
+    waitUntil: 'domcontentloaded', // or 'networkidle0'
+    timeout: 600000, // 600 seconds
+  }),
     page.keyboard.press('Enter'),
   ]);
 
