@@ -65,9 +65,12 @@ export async function discoverSellers(niche, res = null) {
   // Search for the niche
   await page.type('input[name="field-keywords"]', niche);
   await Promise.all([
+    page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
     page.keyboard.press('Enter'),
   ]);
 
+  
+  page.waitForNavigation({ waitUntil: 'domcontentloaded' })
   const seenSellerIds = new Set();
 
   for (let pageNum = 0; pageNum < MAX_PAGES; pageNum++) {
@@ -82,6 +85,9 @@ export async function discoverSellers(niche, res = null) {
       await browser.close();
       return;
     }
+    
+  
+
 
     for (const link of productLinks) {
       try {
