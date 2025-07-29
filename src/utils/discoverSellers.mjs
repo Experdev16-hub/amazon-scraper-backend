@@ -67,7 +67,7 @@ export async function discoverSellers(niche, res = null) {
     waitUntil: 'domcontentloaded', // or 'networkidle0'
     timeout: 600000, // 600 seconds
   }),
-    page.keyboard.press('#nav-search-submit-button'),
+    page.click('button[type="submit"]'),
   ]);
 
   
