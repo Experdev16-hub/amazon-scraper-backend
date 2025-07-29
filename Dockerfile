@@ -30,7 +30,7 @@ RUN npm ci --omit=dev
 COPY . .
 
 # Tell the app where Chromium is
-ENV CHROME_PATH=/usr/bin/chromium-browser
+ENV CHROME_PATH=/usr/bin/chromium
 # Set the environment to production
 ENV NODE_ENV=production
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true

@@ -14,8 +14,7 @@ const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
 const MAX_PAGES = 20;
 const MAX_RETRIES = 3;
 const executablePath =
-  process.env.CHROME_PATH
-  || process.env.PUPPETEER_EXECUTABLE_PATH
+  process.env.CHROME_PATH 
   || '/usr/bin/chromium'; // Dockerfile sets CHROME_PATH
 
 
