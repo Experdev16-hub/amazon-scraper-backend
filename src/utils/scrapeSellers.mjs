@@ -5,6 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { executablePath } from 'puppeteer';
 import { fileURLToPath } from 'url';
+import { safeParseJSON } from './safeParsejson.mjs';
 
 puppeteerExtra.use(StealthPlugin());
 
@@ -38,7 +39,7 @@ export async function scrapeSellerDirectory() {
   fs.writeFileSync(DETAILS_FILE, '');
 
   const lines = fs.readFileSync(SELLERS_FILE, 'utf-8').trim().split('\n');
-  const sellers = lines.map(line => JSON.parse(line));
+  const sellers = lines.map(line => safeParseJSON(line));
 
    const browser = await getBrowser()
 
