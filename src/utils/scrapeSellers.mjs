@@ -39,10 +39,9 @@ export async function scrapeSellerDirectory() {
   fs.writeFileSync(DETAILS_FILE, '');
 
   const lines = fs.readFileSync(SELLERS_FILE, 'utf-8').trim().split('\n');
-  const sellers = lines.map(line => safeParseJSON(line));
+  const sellers = lines.map(line => safeParseJSON(line, []));
 
-   const browser = await getBrowser()
-
+  const browser = await getBrowser()
   const page = await browser.newPage();
 
   for (const { sellerId, sellerName, profileUrl } of sellers) {
