@@ -42,7 +42,6 @@ EXPOSE 3000
 
 RUN which chromium
 
-RUN which chromium-browser
 RUN chromium --version
 
 # Install any additional dependencies your app needs
