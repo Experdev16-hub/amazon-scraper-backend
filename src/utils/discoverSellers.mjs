@@ -74,7 +74,9 @@ export async function discoverSellers(niche, res = null) {
    page.waitForSelector('input[type="submit"]', { visible: true }),
    console.log('submit selector found'),
 
-   page.click('input[type="submit"]'),
+   await page.evaluate(() => {
+    document.querySelector('input[type="submit"]').click();
+  }),
     console.log('submit clicked')
   ]);
 
