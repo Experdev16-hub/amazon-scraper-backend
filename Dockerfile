@@ -28,7 +28,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --omit=dev
 COPY . .
-COPY ./data /app/data
+COPY ./src/data /app/data
 
 
 # Tell the app where Chromium is
