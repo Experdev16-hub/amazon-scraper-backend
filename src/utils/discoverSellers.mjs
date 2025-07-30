@@ -80,7 +80,6 @@ export async function discoverSellers(niche, res = null) {
   
   let currentPage = 1;
   let nextPageExists = true;
-  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
 
   while (nextPageExists && currentPage <= maxPages) {
     console.log(`🔎 Scraping page ${currentPage}...`);
