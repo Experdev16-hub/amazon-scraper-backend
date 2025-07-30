@@ -74,14 +74,12 @@ export async function discoverSellers(niche, res = null) {
    page.waitForSelector('input[type="submit"]', { visible: true }),
    console.log('submit selector found'),
 
-   await page.evaluate(() => {
-    document.querySelector('input[type="submit"]').click();
-  }),
+   page.click('input[type="submit"]'),
     console.log('submit clicked')
   ]);
 
   
-  page.waitForNavigation({ waitUntil: 'domcontentloaded' })
+  page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 600000 })
   const seenSellerIds = new Set();
 
   for (let pageNum = 0; pageNum < MAX_PAGES; pageNum++) {
