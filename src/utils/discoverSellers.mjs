@@ -78,60 +78,65 @@ export async function discoverSellers(niche, res = null) {
   ]);
 
   
-  const seenSellerIds = new Set();
+  let currentPage = 1;
+  let nextPageExists = true;
+  await page.goto(BASE_URL, { waitUntil: 'domcontentloaded' });
 
-  for (let pageNum = 0; pageNum < MAX_PAGES; pageNum++) {
-    console.log(`🔍 Scraping niche "${niche}", page ${pageNum + 1}`);
-    console.log('After:', page.url());
+  while (nextPageExists && currentPage <= maxPages) {
+    console.log(`🔎 Scraping page ${currentPage}...`);
+    await page.waitForSelector('a.a-link-normal');
 
-    const productLinks = await page.$$eval('a.a-link-normal.s-no-outline', links =>
-      links.map(link => link.href).filter(href => href.includes('/dp/'))
-    );
+    const products = await page.$$eval('a.a-link-normal', links => {
+      return links
+        .filter(link => link.href.includes('/dp/'))
+        .map(link => {
+          const href = link.href;
+          const idMatch = href.match(/\/dp\/([A-Z0-9]+)/);
+          const id = idMatch ? idMatch[1] : null;
+          return {
+            link: href.split('?')[0],
+            name: link.textContent.trim().replace(/\s+/g, ' ').substring(0, 100),
+            id,
+          };
+        })
+        .filter(product => product.id);
+    });
 
-    if (productLinks.length === 0 && pageNum === 0 && res) {
-      res.json({ message: '❌ No products found for this niche.' });
-      await browser.close();
-      return;
+    let newCount = 0;
+    for (const product of products) {
+      if (!seenIds.has(product.id)) {
+        seenIds.add(product.id);
+        saveSeller({
+          id: product.id,
+          name: product.name,
+          link: product.link,
+      })
     }
-    
-  
 
+    console.log(`✅ Found ${newCount} new unique products on page ${currentPage}`);
 
-    for (const link of productLinks) {
-      try {
-        await retry(() => page.goto(link, { waitUntil: 'domcontentloaded' }));
-
-        const sellerSection = await page.$x("//*[contains(text(), 'Sold by')]/following-sibling::span[1]//a");
-        if (sellerSection.length > 0) {
-          const profileUrl = await page.evaluate(el => el.href, sellerSection[0]);
-          const sellerName = await page.evaluate(el => el.textContent.trim(), sellerSection[0]);
-          const match = profileUrl.match(/seller=([A-Z0-9]+)/);
-          const sellerId = match ? match[1] : null;
-
-          if (sellerId && !seenSellerIds.has(sellerId)) {
-            seenSellerIds.add(sellerId);
-            saveSeller({ sellerId, sellerName, profileUrl });
-            console.log(`✅ Found seller: ${sellerName} (${sellerId})`);
-          } else {
-            console.log(`⚠️ Seller already seen or ID not found`);
-          }
-        } else {
-          console.log('❌ No seller found on product');
-        }
-
-        await page.goBack({ waitUntil: 'domcontentloaded' });
-      } catch (err) {
-        console.log(`❌ Error with product ${link}: ${err.message}`);
-      }
+    if (currentPage >= maxPages) {
+      console.log(`🛑 Reached max page limit: ${maxPages}`);
+      break;
     }
 
     const nextButton = await page.$('a.s-pagination-next');
-    if (!nextButton) break;
-    await Promise.all([
-      nextButton.click(),
-      page.waitForNavigation({ waitUntil: 'domcontentloaded' }),
-    ]);
+    if (nextButton) {
+      await Promise.all([
+        page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 15000 }),
+        nextButton.click(),
+      ]);
+      await sleep(2000);
+      currentPage++;
+    } else {
+      console.log('📦 No more pages to scrape.');
+      break;
+    }
   }
+
+  await browser.close();
+  console.log('✅ Finished scraping.');
+}
 
   await browser.close();
   await scrapeSellerDirectory(res);
