@@ -79,11 +79,12 @@ export async function discoverSellers(niche, res = null) {
   ]);
 
   
-  page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 600000 })
+  await page.waitForSelector('input[name="field-keywords"]', niche);
   const seenSellerIds = new Set();
 
   for (let pageNum = 0; pageNum < MAX_PAGES; pageNum++) {
     console.log(`🔍 Scraping niche "${niche}", page ${pageNum + 1}`);
+    console.log('After:', page.url());
 
     const productLinks = await page.$$eval('a.a-link-normal.s-no-outline', links =>
       links.map(link => link.href).filter(href => href.includes('/dp/'))
