@@ -11,7 +11,7 @@ puppeteerExtra.use(StealthPlugin());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const SELLERS_FILE = path.resolve(__dirname, '..', 'data', 'sellerUrls.json');
-const MAX_PAGES = 20;
+const MAX_PAGES = 2;
 const MAX_RETRIES = 3;
 const executablePath =
   process.env.CHROME_PATH 
@@ -80,6 +80,7 @@ export async function discoverSellers(niche, res = null) {
   
   let currentPage = 1;
   let nextPageExists = true;
+  let maxPages = MAX_PAGES;
 
   while (nextPageExists && currentPage <= maxPages) {
     console.log(`🔎 Scraping page ${currentPage}...`);
