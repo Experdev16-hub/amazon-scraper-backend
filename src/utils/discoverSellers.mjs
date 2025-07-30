@@ -78,7 +78,6 @@ export async function discoverSellers(niche, res = null) {
   ]);
 
   
-  await page.waitForSelector('input[name="field-keywords"]', niche);
   const seenSellerIds = new Set();
 
   for (let pageNum = 0; pageNum < MAX_PAGES; pageNum++) {
