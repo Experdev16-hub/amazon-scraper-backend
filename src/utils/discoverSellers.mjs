@@ -93,7 +93,7 @@ export async function discoverSellers(niche, res = null) {
     });
 
     let newCount = 0;
-    const seenIds = id
+    const seenIds = new Set();
     for (const product of products) {
       if (!seenIds.has(product.id)) {
         seenIds.add(product.id);
