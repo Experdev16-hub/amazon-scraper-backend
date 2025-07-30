@@ -36,16 +36,6 @@ const saveSeller = (seller) => {
   fs.appendFileSync(SELLERS_FILE, JSON.stringify(seller) + '\n');
 };
 
-const retry = async (fn, retries = MAX_RETRIES) => {
-  while (retries > 0) {
-    try {
-      return await fn();
-    } catch (err) {
-      retries--;
-      if (retries === 0) throw err;
-    }
-  }
-};
 
 export async function discoverSellers(niche, res = null) {
   clearSellerFile();
@@ -103,6 +93,7 @@ export async function discoverSellers(niche, res = null) {
     });
 
     let newCount = 0;
+    const seenIds = id
     for (const product of products) {
       if (!seenIds.has(product.id)) {
         seenIds.add(product.id);
