@@ -1,11 +1,10 @@
-import puppeteer from 'puppeteer-core';
+import puppeteer from 'puppeteer';
 import puppeteerExtra from 'puppeteer-extra';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import fs from 'fs';
 import path from 'path';
 import { scrapeSellerDirectory } from './scrapeSellers.mjs';
 import { fileURLToPath } from 'url';
-import { log } from 'console';
 
 puppeteerExtra.use(StealthPlugin());
 
